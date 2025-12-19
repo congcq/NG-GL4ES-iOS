@@ -9,9 +9,9 @@ if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
     endif()
 
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         add_compile_options(-g0 -O3 -ffunction-sections -fdata-sections)
-        add_link_options(-Wl,--gc-sections)
+        add_link_options(-Wl)
     elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         add_compile_options(/O2 /GL)
     endif()
@@ -53,9 +53,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -DNO_GBM -DDEFAULT_ES=3 -fvisibility=hidden")
 
-if(ANDROID)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DNOX11")
-endif()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DNOX11")
 
 include_directories(${CMAKE_SOURCE_DIR}/include )
 
@@ -137,10 +135,6 @@ set(C_SRC_FILES
     src/gl/samplers.c
 )
 
-if(NOT ANDROID)
-    list(APPEND C_SRC_FILES src/glx/glx.c)
-endif()
-
 set(CPP_SRC_FILES
     src/gl/glsl/glsl_for_es.cpp
     src/gl/getter.cpp
@@ -155,15 +149,15 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     spirv-cross-c
 )
 
-if(MACOS)
+if(${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     # iOS
     target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC
-        "-F${CMAKE_SOURCE_DIR}/external"
-        "-framework libEGL"
-        "-framework libGLESv2"
         "-framework Metal"
         "-framework Foundation"
         "-framework QuartzCore"
+        "-F${CMAKE_SOURCE_DIR}/external"
+        "-framework libEGL"
+        "-framework libGLESv2"
     )
 else()
 if(ANDROID)
@@ -180,7 +174,8 @@ endif()
 target_include_directories(ng_gl4es PUBLIC
     ${CMAKE_SOURCE_DIR}/include
 )
-
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
-    LINK_FLAGS "-Wl,--strip-all"
+    LINK_FLAGS "-Wl"
 )
+endif()
