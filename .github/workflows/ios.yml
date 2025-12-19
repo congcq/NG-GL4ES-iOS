@@ -19,5 +19,5 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: libNG-GL4ES-iOS
-          path: buid/Release-iphoneos/libng_gl4es.dylib
+          path: buid/*
           
