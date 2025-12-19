@@ -14,10 +14,12 @@ jobs:
           wget https://github.com/leetal/ios-cmake/raw/master/ios.toolchain.cmake
           cmake -B build -G Xcode -DCMAKE_TOOLCHAIN_FILE=ios.toolchain.cmake -DDEFAULT_ES=2 -DSTATICLIB=OFF -DPLATFORM=OS64 -DENABLE_BITCODE=FALSE  -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED="NO" -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED=NO -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY=""
           cmake --build build --config Release --target ng_gl4es
+          mkdir artifacts
+          mv ./build/Release-iphoneos/* artifacts/*
 
       - name: Upload lib
         uses: actions/upload-artifact@main
         with:
           name: libNG-GL4ES-iOS
-          path: ./buid/*
+          path: artifacts/*
           
