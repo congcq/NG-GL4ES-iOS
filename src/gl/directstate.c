@@ -368,9 +368,7 @@ void APIENTRY_GL4ES gl4es_glEnableClientStateIndexed(GLenum array, GLuint index)
     }
 }
 #ifdef __APPLE__
-void gl4es_glEnableClientStatei(GLenum array, GLuint index) {
-    gl4es_glEnableClientStateIndexed(array, index);  // Gọi hàm thay thế
-}
+void gl4es_glEnableClientStatei(GLenum array, GLuint index) { gl4es_glEnableClientStatei(array, index); }
 #else
 AliasDecl(void,gl4es_glEnableClientStatei,(GLenum array, GLuint index),gl4es_glEnableClientStateIndexed);
 #endif
@@ -388,11 +386,9 @@ void APIENTRY_GL4ES gl4es_glDisableClientStateIndexed(GLenum array, GLuint index
     }
 }
 #ifdef __APPLE__
-void gl4es_glDisableClientStatei(GLenum array, GLuint index) {
-    gl4es_glDisableClientStateIndexed(array, index);  // Gọi hàm thay thế
-}
+void gl4es_glDisableClientStatei(GLenum array, GLuint index) { gl4es_glDisableClientStatei(array, index); }
 #else
-AliasDecl(void,gl4es_glDisableClientStatei,(GLenum array, GLuint index),gl4es_glDisableClientStateIndexed);
+AliasDecl(void,gl4es_glDisableClientStatei,(GLenum array, GLuint index),gl4es_glDisableClientStatei);
 #endif
 
 void APIENTRY_GL4ES gl4es_glEnableVertexArray(GLuint vaobj, GLenum array) {
