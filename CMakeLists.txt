@@ -30,10 +30,10 @@ set(BUILD_EXTERNAL             OFF CACHE BOOL "Don't build external deps in Exte
 
 set(SPIRV_CROSS_ENABLE_C_API   ON  CACHE BOOL "Enable C API" FORCE)
 set(SPIRV_CROSS_ENABLE_GLSL    ON  CACHE BOOL "Enable GLSL backend" FORCE)
-set(SPIRV_CROSS_ENABLE_REFLECT OFF CACHE BOOL "Disable reflect" FORCE)
+set(SPIRV_CROSS_ENABLE_REFLECT ON CACHE BOOL "Disable reflect" FORCE)
 set(SPIRV_CROSS_ENABLE_HLSL    OFF CACHE BOOL "Disable HLSL backend" FORCE)
-if (MACOS)
-	set(SPIRV_CROSS_ENABLE_MSL     ON CACHE BOOL "Disable MSL backend" FORCE)
+if (APPLE)
+	set(SPIRV_CROSS_ENABLE_MSL     ON CACHE BOOL "Enable MSL backend" FORCE)
 endif()
 set(SPIRV_CROSS_ENABLE_CPP     OFF CACHE BOOL "Disable C++ API target" FORCE)
 set(SPIRV_CROSS_CLI            OFF CACHE BOOL "Disable CLI binary" FORCE)
@@ -162,12 +162,12 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
 if(APPLE)
     # iOS
     target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC
-        "-F${CMAKE_SOURCE_DIR}/external"
-        "-framework libEGL"
-        "-framework libGLESv2"
         "-framework Metal"
         "-framework Foundation"
         "-framework QuartzCore"
+        "-F${CMAKE_SOURCE_DIR}/external"
+        "-framework libEGL"
+        "-framework libGLESv2"
     )
 else()
 if(ANDROID)
